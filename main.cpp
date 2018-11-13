@@ -88,16 +88,23 @@ int main(int argc, char **argv) {
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &proc);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int Nx = 102;
+    int Nx = 100;
     int Ny = Nx;
-    int Nt = 102;
-    double **u = allocate_solution(Nx, Ny);
-    init_condition(u, Nx, Ny);
-    init_buffers(max(Nx, Ny));
-    double time = MPI_Wtime();
-    difference_scheme(u, Nx, Ny, Nt);
-    time -= MPI_Wtime();
-    printf("%d\t\t%.8f\n", Nx, -time);
+    int Nt = 100;
+    for (int i = 0; i < 10; i++) {
+        double **u = allocate_solution(Nx, Ny);
+        init_condition(u, Nx, Ny);
+        init_buffers(max(Nx, Ny));
+        double time = MPI_Wtime();
+        difference_scheme(u, Nx, Ny, Nt);
+        time -= MPI_Wtime();
+        printf("%d\t\t%.8f\n", Nx, -time);
+        Nx += 100;
+        Ny += 100;
+
+    }
     MPI_Finalize();
     return 0;
 }
+//mpic++ /Users/lebarto/CLionProjects/parallel-something/main.cpp
+//mpirun -np 1 a.out
