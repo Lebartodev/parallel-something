@@ -3,4 +3,4 @@ project(Parallel)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Parallel main.cpp)
+add_executable(Parallel main.cpp main2.cpp)
